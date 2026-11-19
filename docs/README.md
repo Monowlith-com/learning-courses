@@ -6,9 +6,9 @@ An independent learning platform for mathematics and computer science / Eine una
 ![type](https://img.shields.io/badge/type-learning%20platform-blue?style=flat-square)
 ![category](https://img.shields.io/badge/category-education-blue?style=flat-square)
 ![language](https://img.shields.io/badge/language-DE%20%2F%20EN-blue?style=flat-square)
-![courses](https://img.shields.io/badge/courses-3-blue?style=flat-square)
-![modules](https://img.shields.io/badge/modules-17-blue?style=flat-square)
-![lessons](https://img.shields.io/badge/lessons-137-blue?style=flat-square)
+![courses](https://img.shields.io/badge/courses-5-blue?style=flat-square)
+![modules](https://img.shields.io/badge/modules-32-blue?style=flat-square)
+![lessons](https://img.shields.io/badge/lessons-234-blue?style=flat-square)
 ![license](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-green?style=flat-square)
 ![Last commit](https://img.shields.io/github/last-commit/monowlith-com/learning-courses?style=flat-square)
 
@@ -18,15 +18,17 @@ An independent learning platform for mathematics and computer science / Eine una
 
 ## Overview
 
-Read structured lessons in sequence or look up topics. The reader supports search, notes, bookmarks, favorites and browser-based reading progress. The interface is bilingual; the current course materials are in German.
+Read structured lessons in sequence or look up topics. The reader supports search, notes, bookmarks, favorites and browser-based reading progress. The interface is bilingual; university courses are available in German and English; school mathematics is in German.
 
-Die Lerntexte lassen sich der Reihe nach lesen oder gezielt nachschlagen. Der Reader bietet Suche, Notizen, Lesezeichen, Favoriten und persönlichen Lesestand. Die Oberfläche ist zweisprachig; die Kursinhalte liegen derzeit auf Deutsch vor.
+Die Lerntexte lassen sich der Reihe nach lesen oder gezielt nachschlagen. Der Reader bietet Suche, Notizen, Lesezeichen, Favoriten und persönlichen Lesestand. Die Oberfläche ist zweisprachig; die Universitätskurse liegen auf Deutsch und Englisch vor, Schulmathematik auf Deutsch.
 
 ## Contents
 
 - [Schule · Mathematik](https://monowlith-com.github.io/learning-courses/?course=school_mathematics&module=M1&lesson=L1&syslang=de&doclang=de&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-school-mathematics-de)
 - [Universität · Mathematik](https://monowlith-com.github.io/learning-courses/?course=university_mathematics&module=M1&lesson=L1&syslang=de&doclang=de&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-mathematics-de)
 - [Universität · Informatik](https://monowlith-com.github.io/learning-courses/?course=university_computer-science&module=M1&lesson=L1&syslang=de&doclang=de&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-computer-science-de)
+- [University · Mathematics](https://monowlith-com.github.io/learning-courses/?course=university_mathematics&module=M1&lesson=L1&syslang=en&doclang=en&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-mathematics-en)
+- [University · Computer Science](https://monowlith-com.github.io/learning-courses/?course=university_computer-science&module=M1&lesson=L1&syslang=en&doclang=en&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-computer-science-en)
 
 ### Two ways to use the courses / Zwei Nutzungsformen
 

@@ -77,7 +77,12 @@ function home(){
  // Keep the agreed hierarchy visible: university (two courses), then school (one).
  for(const [level,labelDe,labelEn] of [
   ['university','Universität','University'],['school','Schule','School']]){
-  const entries=catalog.filter(c=>c.id.startsWith(level+'_')&&c.language===preferences.doclang);
+  const variants=new Map();
+  for(const c of catalog.filter(c=>c.id.startsWith(level+'_'))){
+   const key=window.LC_URL.publicCourse(c.id),old=variants.get(key);
+   if(!old||c.language===window.LC_I18N.locale)variants.set(key,c);
+  }
+  const entries=[...variants.values()];
   if(!entries.length)continue;
   const section=document.createElement('section');section.className='lc-home-course-section';
   const heading=document.createElement('h2');heading.className='lc-home-level';
@@ -85,16 +90,18 @@ function home(){
   const grid=document.createElement('div');grid.className='lc-cards';grid.setAttribute('aria-label',heading.textContent);
   for(const c of entries){
    const card=document.createElement('article');card.className='lc-course-card';
+   const locale=window.LC_I18N.locale,logical=window.LC_URL.publicCourse(c.id);
+   const title=tr('course.title.'+logical);const displayTitle=title==='course.title.'+logical?c.title:title;
    const href='index.html'+window.LC_URL.toURL(c.id,null,window.LernkursTheme.current,window.LC_I18N.locale,c.language);
    if(c.image){
     const visual=document.createElement('a');visual.href=href;visual.className='lc-card-image-link';
-    visual.setAttribute('aria-label',tr('home.open',{title:c.title}));
+    visual.setAttribute('aria-label',tr('home.open',{title:displayTitle}));
     const img=document.createElement('img');img.className='lc-card-image';img.src=c.image;
-    img.alt=tr('home.cover',{title:c.title});img.loading='lazy';img.decoding='async';
+    img.alt=tr('home.cover',{title:displayTitle});img.loading='lazy';img.decoding='async';
     visual.append(img);card.append(visual);
    }
    const desc=document.createElement('div');desc.className='lc-card-body';
-   const h2=document.createElement('h3');const a=document.createElement('a');a.href=href;a.textContent=c.title;h2.append(a);desc.append(h2);
+   const h2=document.createElement('h3');const a=document.createElement('a');a.href=href;a.textContent=displayTitle;h2.append(a);desc.append(h2);
    const summary=document.createElement('p');summary.textContent=tr('home.lessons',{count:c.lessons})+' · '+tr('home.documents',{count:c.documents});desc.append(summary);
    card.append(desc);grid.append(card);
   }
@@ -143,9 +150,7 @@ async function start(c){
  }
 }
 const selected=catalog.find(c=>c.id===courseId);
-if(!requestedCourse&&preferences.doclang==='en'&&!catalog.some(c=>c.language==='en')){
- status(window.LC_I18N.locale==='en'?'English course documents are not available yet.':'Englische Kursdokumente sind noch nicht verfügbar.');returnLink(fallbackRoute());
-}else if(!requestedCourse)home();else if(!selected){
+if(!requestedCourse)home();else if(!selected){
  status(preferences.doclang==='en'?(window.LC_I18N.locale==='en'?'English course documents are not available yet.':'Englische Kursdokumente sind noch nicht verfügbar.'):tr('status.unknown',{id:requestedCourse}));returnLink(fallbackRoute());
 }else start(selected);
 })();

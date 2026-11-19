@@ -47,13 +47,11 @@
  ];
  for(const [selector,attribute,key] of attrBindings){const el=scope.querySelector?.(selector);if(el)el.setAttribute(attribute,t(key));}
  const switcher=scope.querySelector?.('#lc-language-switch');if(switcher){switcher.textContent=locale==='de'?'DE':'EN';switcher.title=t('header.lang');switcher.setAttribute('aria-label',t('header.lang'));switcher.removeAttribute('aria-pressed');}
-  const doc=scope.querySelector?.('#lc-document-language-switch');
-  if(doc){const lang=new URLSearchParams(location.search).get('doclang')==='en'?'en':'de';doc.textContent=lang.toUpperCase();doc.title=t('header.doclang');doc.setAttribute('aria-label',t('header.doclang')+' ('+lang.toUpperCase()+')');}
   window.LC_LOCALIZE_HEADER_EXTERNAL?.(locale,scope);
   document.documentElement.lang=locale;
  }
  function set(lang){if(lang!=='de'&&lang!=='en')return;locale=lang;try{localStorage.setItem(KEY,lang)}catch(_){};apply();window.dispatchEvent(new CustomEvent('lc-language-change',{detail:{locale}}));}
- function showUnavailable(next,trigger){
+ function showUnavailable(next,trigger,onClose){
   const message=t(next==='en'?'header.doclang_unavailable_en':'header.doclang_unavailable_de');
   let dialog=document.getElementById('lc-doclang-unavailable');
   if(!dialog){
@@ -65,20 +63,19 @@
    actions.append(close);form.append(text,actions);dialog.append(form);document.body.append(dialog);
   }
   dialog.querySelector('p').textContent=message;
-  dialog.addEventListener('close',()=>trigger.focus({preventScroll:true}),{once:true});
+  dialog.addEventListener('close',()=>{if(onClose)onClose();else trigger.focus({preventScroll:true});},{once:true});
   if(!dialog.open)dialog.showModal();
  }
- function install(root=document){const btn=root.querySelector?.('#lc-language-switch');if(!btn)return;btn.onclick=()=>{const next=locale==='de'?'en':'de';set(next);const target=new URL(location.href);target.searchParams.delete('lang');target.searchParams.set('syslang',next);location.href=target.href};
- const doc=root.querySelector?.('#lc-document-language-switch');if(doc)doc.onclick=()=>{
-  const target=new URL(location.href),next=target.searchParams.get('doclang')==='en'?'de':'en';
-  const catalog=window.LC_CATALOG||[],requested=target.searchParams.get('course');
-  const available=requested
-   ?catalog.some(c=>c.language===next&&c.id===window.LC_URL?.internalCourse(requested,next))
-   :catalog.some(c=>c.language===next);
-  if(!available){showUnavailable(next,doc);return;}
-  const pages={glossar:'glossary',pfad:'path',studienweg:'study-path',quellenverzeichnis:'sources'};
-  const page=target.searchParams.get('page');if(page){const map=next==='en'?pages:Object.fromEntries(Object.entries(pages).map(([a,b])=>[b,a]));if(map[page])target.searchParams.set('page',map[page]);}
-  target.searchParams.set('doclang',next);target.searchParams.set('syslang',locale);location.href=target.href;
- };apply(root);}
- window.LC_I18N={get locale(){return locale},t,set,apply,install};
+ function install(root=document){
+  const btn=root.querySelector?.('#lc-language-switch');if(!btn)return;
+  btn.onclick=()=>{
+   const next=locale==='de'?'en':'de',target=new URL(location.href);
+   const available=window.LC_URL.switchLanguage(target,next);
+   target.searchParams.set('theme',window.LernkursTheme?.current||target.searchParams.get('theme')||'light');
+   set(next);
+   const go=()=>{location.href=target.href};
+   if(available)go();else showUnavailable(next,btn,go);
+  };apply(root);
+ }
+ window.LC_I18N={get locale(){return locale},t,set,apply,install,showUnavailable};
 })();

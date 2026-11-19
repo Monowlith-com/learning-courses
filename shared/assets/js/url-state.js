@@ -29,5 +29,16 @@
   p.set('syslang',lang(syslang));p.set('doclang',lang(doclang||(/_en$/.test(course)?'en':'de')));p.set('theme',mode(theme));
   return '?'+p.toString()+(section?'#'+encodeURIComponent(section):'');
  }
- window.LC_URL={fromURL,toURL,publicCourse,internalCourse,preferences};
+ // Select the target document language without inventing unregistered datasets.
+ function switchLanguage(url,next){
+  const p=url.searchParams,catalog=window.LC_CATALOG||[],course=p.get('course');
+  const current=lang(p.get('doclang'));
+  const available=course?catalog.some(c=>c.id===internalCourse(course,next)&&c.language===next):catalog.some(c=>c.language===next);
+  p.delete('lang');p.set('syslang',next);
+  if(!available){p.set('doclang',current);return false;}
+  const pages={glossar:'glossary',pfad:'path',studienweg:'study-path',quellenverzeichnis:'sources',kursuebersicht:'course-overview'};
+  const page=p.get('page');if(page){const map=next==='en'?pages:Object.fromEntries(Object.entries(pages).map(([a,b])=>[b,a]));if(map[page])p.set('page',map[page]);}
+  p.set('doclang',next);return true;
+ }
+ window.LC_URL={fromURL,toURL,publicCourse,internalCourse,preferences,switchLanguage};
 })();

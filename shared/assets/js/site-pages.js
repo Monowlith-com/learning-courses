@@ -36,13 +36,24 @@ if(themeButton&&window.LernkursTheme){
 const language=document.getElementById('lc-language-switch');
 if(language){
  language.textContent=locale==='de'?'DE':'EN';
- language.title=locale==='de'?'Oberflächensprache wechseln (Deutsch / Englisch)':'Change system language (English / German)';language.setAttribute('aria-label',language.title);
+ language.title=locale==='de'?'Sprache wechseln (Deutsch / Englisch)':'Change language (English / German)';language.setAttribute('aria-label',language.title);
  language.onclick=()=>{
   const next=locale==='de'?'en':'de';
   try{localStorage.setItem(KEY,next)}catch(_e){}
   const target=new URL('../'+next+'/'+slug,location.href);
-  target.search=location.search;target.searchParams.set('syslang',next);target.searchParams.set('doclang',doclang);target.hash=location.hash;
-  location.assign(target.href);
+  target.search=location.search;target.searchParams.set('syslang',next);target.hash=location.hash;
+  let available=true;
+  if(hasCourse){
+   const returnRoute=new URL('../../../index.html'+back,location.href);
+   returnRoute.searchParams.set('doclang',doclang);
+   available=window.LC_URL.switchLanguage(returnRoute,next);
+   target.searchParams.set('doclang',returnRoute.searchParams.get('doclang'));
+   target.searchParams.set('back',returnRoute.search+returnRoute.hash);
+  }else if((window.LC_CATALOG||[]).some(c=>c.language===next))target.searchParams.set('doclang',next);
+  target.searchParams.set('theme',window.LernkursTheme?.current||'light');
+  const go=()=>location.href=target.href;
+  if(available)go();else {window.LC_I18N.set(next);window.LC_I18N.showUnavailable(next,language,go);}
+
  };
 }
 // Navigating between legal and information pages must preserve the return context.
