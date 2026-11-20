@@ -304,6 +304,7 @@ body.reader-wide {--paper-width:var(--lc-paper-wide)}
 .lc-card-body {padding:1.95rem 1.15rem;display:flex;flex-direction:column;justify-content:center;gap:.5rem}
 .lc-card-body h3 {margin:0}
 .lc-card-body p {color:var(--muted);font-size:.88rem;margin:0}
+.lc-card-body .lc-card-languages {margin-top:.35rem}
 .lc-status {margin-top:1rem;color:var(--muted)}
 /* Normal-flow footer: fill unused viewport height on short standalone pages.
    Do not change the reader shell or the approved sticky sidebars. */
@@ -518,3 +519,19 @@ body.has-scrolled .bottom-jumpbar {visibility:visible;pointer-events:auto}
 .lc-col-width-26 { width: 26%; }
 .lc-col-width-30 { width: 30%; }
 .lc-col-width-50 { width: 50%; }
+
+.lc-table-width-99 { width: 99%; }
+.lc-col-width-7 { width: 7%; }
+.lc-col-width-8 { width: 8%; }
+.lc-col-width-9 { width: 9%; }
+.lc-col-width-10 { width: 10%; }
+.lc-col-width-11 { width: 11%; }
+.lc-col-width-12 { width: 12%; }
+.lc-col-width-13 { width: 13%; }
+.lc-col-width-14 { width: 14%; }
+.lc-col-width-16 { width: 16%; }
+.lc-col-width-18 { width: 18%; }
+.lc-col-width-28 { width: 28%; }
+.lc-col-width-40 { width: 40%; }
+.lc-col-width-42 { width: 42%; }
+.lc-col-width-57 { width: 57%; }

@@ -74,7 +74,7 @@ function home(){
  langInit();installBrandImage(header);installOverviewTheme(header);
  const main=document.createElement('main');main.className='lc-home';
  const h=document.createElement('h1');h.className='sr-only';h.textContent=tr('home.select');main.append(h);
- // Keep the agreed hierarchy visible: university (two courses), then school (one).
+ // Keep alphabetical canonical course order within each educational level.
  for(const [level,labelDe,labelEn] of [
   ['university','Universität','University'],['school','Schule','School']]){
   const variants=new Map();
@@ -82,7 +82,7 @@ function home(){
    const key=window.LC_URL.publicCourse(c.id),old=variants.get(key);
    if(!old||c.language===window.LC_I18N.locale)variants.set(key,c);
   }
-  const entries=[...variants.values()];
+  const entries=[...variants.values()].sort((a,b)=>window.LC_URL.publicCourse(a.id).localeCompare(window.LC_URL.publicCourse(b.id),'en'));
   if(!entries.length)continue;
   const section=document.createElement('section');section.className='lc-home-course-section';
   const heading=document.createElement('h2');heading.className='lc-home-level';
@@ -103,6 +103,9 @@ function home(){
    const desc=document.createElement('div');desc.className='lc-card-body';
    const h2=document.createElement('h3');const a=document.createElement('a');a.href=href;a.textContent=displayTitle;h2.append(a);desc.append(h2);
    const summary=document.createElement('p');summary.textContent=tr('home.lessons',{count:c.lessons})+' · '+tr('home.documents',{count:c.documents});desc.append(summary);
+   const langs=[...new Set(catalog.filter(v=>window.LC_URL.publicCourse(v.id)===logical).map(v=>v.language))];
+   const label=code=>code==='de'?tr('home.language.de'):code==='en'?tr('home.language.en'):code;
+   const available=document.createElement('p');available.className='lc-card-languages';available.textContent=tr('home.languages')+': '+[...langs].sort((a,b)=>(a===locale?-1:b===locale?1:a.localeCompare(b))).map(label).join(', ');desc.append(available);
    card.append(desc);grid.append(card);
   }
   section.append(grid);main.append(section);
