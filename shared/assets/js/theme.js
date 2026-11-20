@@ -4,23 +4,41 @@
  const choose=t=>t==='dark'?'dark':'light';
  const urlTheme=()=>choose(new URLSearchParams(location.search).get('theme'));
  let current=urlTheme();
+ // The URL is authoritative, including the canonical language of information pages.
+ function uiLanguage(here){return here.get('syslang')||window.LC_I18N?.locale||document.documentElement.lang||'de';}
+ function applyPreferences(query,here,portal=false){
+  query.delete('lang');query.set('syslang',uiLanguage(here));
+  query.set('doclang',(portal?here.get('doclang'):query.get('doclang')||here.get('doclang'))||'de');
+  query.set('theme',current);
+ }
  function updateLinks(){
+  const here=new URLSearchParams(location.search);
   document.querySelectorAll('a[href]').forEach(a=>{
    const href=a.getAttribute('href')||'';
-   if(!href||/^(?:#|\/\/|[a-z][a-z0-9+.-]*:)/i.test(href))return;
+   if(!href||href.startsWith('#'))return;
+   if(/^(?:\/\/|[a-z][a-z0-9+.-]*:)/i.test(href)){
+    let target;try{target=new URL(href,location.href)}catch(_){return;}
+    const portal=target.origin==='https://monowlith-com.github.io'&&/^\/(?:index\.html)?$/.test(target.pathname);
+    // Absolute UI navigation may be produced by an earlier update. Never modify external credits or source links.
+    const internalUI=target.origin===location.origin&&target.protocol===location.protocol&&
+      a.closest?.('.header-first,.lc-global-footer nav')&&/(?:\.html?|\/)$/.test(target.pathname);
+    if(!portal&&!internalUI)return;
+    applyPreferences(target.searchParams,here,portal);a.setAttribute('href',target.href);return;
+   }
    const hashPos=href.indexOf('#'),frag=hashPos<0?'':href.slice(hashPos);
    const base=hashPos<0?href:href.slice(0,hashPos);
    const q=base.indexOf('?'),path=q<0?base:base.slice(0,q);
-   const query=new URLSearchParams(q<0?'':base.slice(q+1));query.delete('lang');
-   // Media downloads are not navigation routes.
-   if(!path||/(?:\.html?|\/)$/.test(path)){const here=new URLSearchParams(location.search);query.set('syslang',window.LC_I18N?.locale||here.get('syslang')||document.documentElement.lang||'de');query.set('doclang',query.get('doclang')||here.get('doclang')||'de');query.set('theme',current);}
-   const qs=query.toString();a.setAttribute('href',path+(qs?'?'+qs:'')+frag);
+   // Keep relative reader routes relative for the in-document navigation handler.
+   if(!path||/(?:\.html?|\/)$/.test(path)){
+    const query=new URLSearchParams(q<0?'':base.slice(q+1));applyPreferences(query,here);
+    const qs=query.toString();a.setAttribute('href',path+(qs?'?'+qs:'')+frag);
+   }
   });
  }
  function syncAddress(){
   const next=new URL(location.href);
   next.searchParams.delete('lang');
-  next.searchParams.set('syslang',window.LC_I18N?.locale||next.searchParams.get('syslang')||document.documentElement.lang||'de');
+  next.searchParams.set('syslang',uiLanguage(next.searchParams));
   next.searchParams.set('doclang',next.searchParams.get('doclang')==='en'?'en':'de');
   next.searchParams.set('theme',current);
   const value=next.pathname+next.search+next.hash;
