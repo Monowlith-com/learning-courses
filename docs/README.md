@@ -8,7 +8,7 @@ An independent learning platform for mathematics, computer science and electrica
 ![language](https://img.shields.io/badge/language-DE%20%2F%20EN-blue?style=flat-square)
 ![courses](https://img.shields.io/badge/courses-8-blue?style=flat-square)
 ![modules](https://img.shields.io/badge/modules-96-blue?style=flat-square)
-![lessons](https://img.shields.io/badge/lessons-616-blue?style=flat-square)
+![lessons](https://img.shields.io/badge/lessons-618-blue?style=flat-square)
 ![license](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-green?style=flat-square)
 ![Last commit](https://img.shields.io/github/last-commit/monowlith-com/learning-courses?style=flat-square)
 
