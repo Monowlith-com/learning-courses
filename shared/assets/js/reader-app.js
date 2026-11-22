@@ -11,7 +11,7 @@ const load=(k,def)=>{if(!storage)return def;try{return JSON.parse(storage.getIte
 const save=(k,v)=>{if(!storage)return false;try{storage.setItem(storageKey+k,JSON.stringify(v));return true}catch{const status=document.getElementById('progress-feedback');if(status)status.textContent=tr('progress.storage_error');return false}};
 const debugProfile=document.documentElement.dataset.lcProfile==='debug';
 const viewKey=key=>debugProfile?':debug'+key:key;
-const defaultFont=()=>Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--read-font'))||1;
+const defaultFont=()=>1;
 let theme=load(':theme','light'),font=load(viewKey(':font'),defaultFont());
 const COURSE_ID=String(window.LERNKURS_KONFIGURATION.kurskennung);
 // Historical A/B/C document IDs remain usable in links, browser backups and notes.
@@ -62,7 +62,7 @@ const docHash=(id,section)=>window.LC_URL.toURL(id,section,theme,window.LC_I18N.
 const routeFromHash=()=>window.LC_URL.fromURL(location.search+location.hash,allDocs());
 const scrollToAnchor=anchor=>{const h=anchor==='__lektion__'?$('reader').querySelector('h1'):(anchor&&document.getElementById(anchor));if(h)h.scrollIntoView({block:'start'});else window.scrollTo(0,0)};
 function setTheme(v){theme=v==='dark'?'dark':'light';window.LernkursTheme.set(theme);save(':theme',theme);$('theme').textContent=theme==='light'?'☾':'☀';$('theme').setAttribute('aria-label',theme==='light'?tr('header.theme_dark'):tr('header.theme_light'));$('theme').title=theme==='light'?tr('header.theme_dark'):tr('header.theme_light')}
-function setFont(v){font=Math.max(.84,Math.min(1.48,Number(v)||1));document.documentElement.style.setProperty('--read-font',font.toFixed(2)+'rem');save(viewKey(':font'),font);scheduleMarginNotes();requestAnimationFrame(()=>requestAnimationFrame(renderMarginNotes))}
+function setFont(v){font=Math.max(.84,Math.min(1.48,Number(v)||1));window.LCDirectStyles?.set('--read-font',font.toFixed(2)+'rem');save(viewKey(':font'),font);scheduleMarginNotes();requestAnimationFrame(()=>requestAnimationFrame(renderMarginNotes))}
 // The temporary settings panel delegates reader text size to this existing persistent control.
 window.addEventListener('lc-preview-font-request',event=>{
  if(!debugProfile)return;
@@ -276,7 +276,6 @@ function openDoc(id,anchor=null,mode='push'){
   $('reader').innerHTML=d.html; $('reader').lang=window.LERNKURS_KONFIGURATION.sprache;
   window.LernkursTheme?.updateLinks();
   enhanceLessonPresentation();
-  window.LCContentLists?.prepare($('reader'));
   for(const link of $('reader').querySelectorAll('a[href^="https://"],a[href^="http://"]')){
    link.rel='noopener noreferrer';link.referrerPolicy='no-referrer';
   }
@@ -909,33 +908,35 @@ $('reader').addEventListener('click',e=>{
 // Rail position and height are CSS-only. The intrinsic header height is
 // updated only when it actually changes, never during a scroll callback.
 const paper=document.querySelector('.paper'),jump=document.querySelector('.bottom-jumpbar');
-const geometryRoot=document.documentElement;
-let geometryRaf=0;
-function setGeometryProperty(name,value){
- if(geometryRoot.style.getPropertyValue(name)!==value)geometryRoot.style.setProperty(name,value);
-}
+// Measured geometry is applied to a constructable stylesheet with direct pixel values.
+const geometrySheet=(()=>{try{const s=new CSSStyleSheet();document.adoptedStyleSheets=[...document.adoptedStyleSheets,s];return s}catch{return null}})();
+let geometryRaf=0,headerPx=116,jumpX='50%',jumpBottom='0.8rem';
+function paintGeometry(){if(!geometrySheet)return;geometrySheet.replaceSync(
+ `html{scroll-padding-top:${Math.round(headerPx+12)}px}`+
+
+ `.bottom-jumpbar{left:${jumpX};bottom:${jumpBottom}}`
+)}
 function syncHeaderHeight(){
- setGeometryProperty('--header-h',`${$('site-header').getBoundingClientRect().height}px`);
- scheduleReaderGeometry();
+ headerPx=$('site-header').getBoundingClientRect().height;
+ paintGeometry();scheduleReaderGeometry();
 }
 function syncReaderGeometry(){
  geometryRaf=0;
  const headerHeight=$('site-header').getBoundingClientRect().height;
  const viewport=window.innerHeight;
  const paperRect=paper.getBoundingClientRect();
- const rootSize=Number.parseFloat(getComputedStyle(geometryRoot).fontSize)||16;
- // Only the separate back-to-top control and heading-linked notes.
+ const rootSize=Number.parseFloat(getComputedStyle(document.documentElement).fontSize)||16;
  const bottom=Math.max(.8*rootSize,viewport-paperRect.bottom+.25*rootSize);
- setGeometryProperty('--lc-jump-x',`${paperRect.left+paperRect.width/2}px`);
- setGeometryProperty('--lc-jump-bottom',`${bottom}px`);
+ jumpX=`${Math.round(paperRect.left+paperRect.width/2)}px`;
+ jumpBottom=`${Math.round(bottom)}px`;
+ paintGeometry();
  document.body.classList.toggle('has-scrolled',window.scrollY>0&&viewport-bottom-jump.offsetHeight>=headerHeight);
  scheduleMarginNotes();
 }
 function scheduleReaderGeometry(){if(!geometryRaf)geometryRaf=requestAnimationFrame(syncReaderGeometry)}
 window.addEventListener('scroll',scheduleReaderGeometry,{passive:true});
 window.addEventListener('resize',syncHeaderHeight,{passive:true});
-const headerObserver=new ResizeObserver(syncHeaderHeight);
-headerObserver.observe($('site-header'));
+const headerObserver=new ResizeObserver(syncHeaderHeight);headerObserver.observe($('site-header'));
 const geometryObserver=new ResizeObserver(scheduleReaderGeometry);
 for(const target of [paper,jump])geometryObserver.observe(target);
 syncHeaderHeight();syncReaderGeometry();
