@@ -6,9 +6,9 @@ An independent learning platform for mathematics, computer science and electrica
 ![type](https://img.shields.io/badge/type-learning%20platform-blue?style=flat-square)
 ![category](https://img.shields.io/badge/category-education-blue?style=flat-square)
 ![language](https://img.shields.io/badge/language-DE%20%2F%20EN-blue?style=flat-square)
-![courses](https://img.shields.io/badge/courses-8-blue?style=flat-square)
-![modules](https://img.shields.io/badge/modules-96-blue?style=flat-square)
-![lessons](https://img.shields.io/badge/lessons-618-blue?style=flat-square)
+![courses](https://img.shields.io/badge/courses-10-blue?style=flat-square)
+![modules](https://img.shields.io/badge/modules-160-blue?style=flat-square)
+![lessons](https://img.shields.io/badge/lessons-880-blue?style=flat-square)
 ![license](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-green?style=flat-square)
 ![Last commit](https://img.shields.io/github/last-commit/monowlith-com/learning-courses?style=flat-square)
 
@@ -32,6 +32,8 @@ Die Lerntexte lassen sich der Reihe nach lesen oder gezielt nachschlagen. Der Re
 - [University · Computer Science](https://monowlith-com.github.io/learning-courses/?course=university_computer-science&module=M1&lesson=L1&syslang=en&doclang=en&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-computer-science-en)
 - [Universität · Elektrotechnik und Informationstechnik](https://monowlith-com.github.io/learning-courses/?course=university_electrical-engineering&module=M1&lesson=L1&syslang=de&doclang=de&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-electrical-engineering-de)
 - [University · Electrical Engineering and Information Technology](https://monowlith-com.github.io/learning-courses/?course=university_electrical-engineering&module=M1&lesson=L1&syslang=en&doclang=en&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-electrical-engineering-en)
+- [Universität · Robotik und autonome Systeme](https://monowlith-com.github.io/learning-courses/?course=university_robotics-and-autonomous-systems&module=M1&lesson=L1&syslang=de&doclang=de&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-robotics-and-autonomous-systems-de)
+- [University · Robotics and Autonomous Systems](https://monowlith-com.github.io/learning-courses/?course=university_robotics-and-autonomous-systems&module=M1&lesson=L1&syslang=en&doclang=en&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-robotics-and-autonomous-systems-en)
 
 ### Two ways to use the courses / Zwei Nutzungsformen
 
