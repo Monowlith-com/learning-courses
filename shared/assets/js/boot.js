@@ -102,7 +102,7 @@ function home(){
    }
    const desc=document.createElement('div');desc.className='lc-card-body';
    const h2=document.createElement('h3');const a=document.createElement('a');a.href=href;a.textContent=displayTitle;h2.append(a);desc.append(h2);
-   const summary=document.createElement('p');summary.textContent=tr('home.lessons',{count:c.lessons})+' · '+tr('home.documents',{count:c.documents});desc.append(summary);
+   const summary=document.createElement('p');summary.textContent=tr(c.modules===1?'home.module_one':'home.modules',{count:c.modules})+' · '+tr(c.lessons===1?'home.lesson_one':'home.lessons',{count:c.lessons})+' · '+tr(c.documents===1?'home.document_one':'home.documents',{count:c.documents});desc.append(summary);
    const langs=[...new Set(catalog.filter(v=>window.LC_URL.publicCourse(v.id)===logical).map(v=>v.language))];
    const label=code=>code==='de'?tr('home.language.de'):code==='en'?tr('home.language.en'):code;
    const available=document.createElement('p');available.className='lc-card-languages';available.textContent=tr('home.languages')+': '+[...langs].sort((a,b)=>(a===locale?-1:b===locale?1:a.localeCompare(b))).map(label).join(', ');desc.append(available);
