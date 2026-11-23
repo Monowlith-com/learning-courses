@@ -6,9 +6,9 @@ An independent learning platform for mathematics, computer science and electrica
 ![type](https://img.shields.io/badge/type-learning%20platform-blue?style=flat-square)
 ![category](https://img.shields.io/badge/category-education-blue?style=flat-square)
 ![language](https://img.shields.io/badge/language-DE%20%2F%20EN-blue?style=flat-square)
-![courses](https://img.shields.io/badge/courses-12-blue?style=flat-square)
-![modules](https://img.shields.io/badge/modules-180-blue?style=flat-square)
-![lessons](https://img.shields.io/badge/lessons-970-blue?style=flat-square)
+![courses](https://img.shields.io/badge/courses-14-blue?style=flat-square)
+![modules](https://img.shields.io/badge/modules-242-blue?style=flat-square)
+![lessons](https://img.shields.io/badge/lessons-1450-blue?style=flat-square)
 ![license](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-green?style=flat-square)
 ![Last commit](https://img.shields.io/github/last-commit/monowlith-com/learning-courses?style=flat-square)
 
@@ -36,6 +36,8 @@ Die Lerntexte lassen sich der Reihe nach lesen oder gezielt nachschlagen. Der Re
 - [University · Robotics and Autonomous Systems](https://monowlith-com.github.io/learning-courses/?course=university_robotics-and-autonomous-systems&module=M1&lesson=L1&syslang=en&doclang=en&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-robotics-and-autonomous-systems-en)
 - [Schule · Informatik](https://monowlith-com.github.io/learning-courses/?course=school_computer-science&module=M1&lesson=L1&syslang=de&doclang=de&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-school-computer-science-de)
 - [School · Computer Science](https://monowlith-com.github.io/learning-courses/?course=school_computer-science&module=M1&lesson=L1&syslang=en&doclang=en&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-school-computer-science-en)
+- [Universität · Data Science und Künstliche Intelligenz](https://monowlith-com.github.io/learning-courses/?course=university_data-science-and-artificial-intelligence&module=M1&lesson=L1&syslang=de&doclang=de&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-data-science-and-artificial-intelligence-de)
+- [University · Data Science and Artificial Intelligence](https://monowlith-com.github.io/learning-courses/?course=university_data-science-and-artificial-intelligence&module=M1&lesson=L1&syslang=en&doclang=en&theme=light) · [Repository](https://github.com/monowlith-com/learning-courses-university-data-science-and-artificial-intelligence-en)
 
 ### Two ways to use the courses / Zwei Nutzungsformen
 
