@@ -82,7 +82,8 @@ function home(){
    const key=window.LC_URL.publicCourse(c.id),old=variants.get(key);
    if(!old||c.language===window.LC_I18N.locale)variants.set(key,c);
   }
-  const entries=[...variants.values()].sort((a,b)=>window.LC_URL.publicCourse(a.id).localeCompare(window.LC_URL.publicCourse(b.id),'en'));
+  const englishTitles=new Map(catalog.filter(c=>c.language==='en').map(c=>[window.LC_URL.publicCourse(c.id),c.title]));
+  const entries=[...variants.values()].sort((a,b)=>(englishTitles.get(window.LC_URL.publicCourse(a.id))||a.title).localeCompare(englishTitles.get(window.LC_URL.publicCourse(b.id))||b.title,'en'));
   if(!entries.length)continue;
   const section=document.createElement('section');section.className='lc-home-course-section';
   const heading=document.createElement('h2');heading.className='lc-home-level';
